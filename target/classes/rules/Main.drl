@@ -1,0 +1,93 @@
+package com.rules
+ 
+import com.rules.Game;
+import com.rules.Mouse;
+import com.rules.Cheese;
+import com.rules.Mousetrap;
+
+//verifica se o jogo ainda n começou para iniciar.
+rule "Start"
+	no-loop
+    when
+       	$m: Mouse(status=="start")
+    then
+        $m.setRun();
+        update( $m );
+        System.out.println("Start Game!");
+end
+
+//explora a região com passeio aleatório.
+rule "Exploit"
+	salience -3
+    when
+       	$m:Mouse(status=="run")
+        $g: Game()
+    then
+    	$m.addPathMemory();
+        $g.randomWalking();
+  
+		update( $m );
+        update( $g );
+        System.out.println("Exploit!");
+end
+
+//verficar se foi encontrado, nas proximidades, cheiro de ratos mortos na ratoreira, caso sim, para para avaliar a situação.
+rule "IsSmellMousetrap"
+	salience -2
+    when
+       	$m:Mouse()
+    then
+     	if($m.isSmellMousetrap()==true){
+     		$m.setDanger();
+       		update( $m );
+        	System.out.println("Smell Mousetrap!");
+       	}
+end
+
+//se for encontrada uma situação de perigo volta para o último movimento seguro na mémoria.
+rule "returnLastStep"
+    when
+       	$m: Mouse(status=="danger")
+    then
+     	$m.returnLastStep();
+     	$m.setRun();
+       	update( $m );
+        System.out.println("Return to last Step!");
+       	
+end
+
+//caso seja encontrado cheiro de queijo nas proximidades, o rato fica alerta para pegar a comida. 
+rule "IsSmellCheese"
+	salience -2
+    when
+       	$m:Mouse()
+    then
+     	if($m.isSmellCheese()==true){
+     		$m.setFood();
+       		update( $m );
+        	System.out.println("Smell Cheese!");
+       	}
+end
+
+//se realmente encontrar a comida o rato vai em direção a mesma para se alimentar.
+rule "GoForFood"
+	salience -1
+    when
+       	$m: Mouse(status=="food")
+    then
+     	$m.goForFood();
+       	update( $m );
+        System.out.println("Go For Food!");
+end
+
+//caso esteja se alimentando o objetivo é concluido e o jogo terminada.
+rule "GoalCompleted"
+	no-loop
+    when
+       $m:Mouse(status=="eating")
+    then
+       System.out.println("Goal Completed!");
+       $m.setStop();
+       update( $m );
+end
+
