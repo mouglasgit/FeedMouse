@@ -22,6 +22,11 @@ public class Utils {
 		ground[8][8] = types.CHEESE_SMELL;
 		ground[9][9] = types.CHEESE_SMELL;
 
+		ground[4][4] = types.CHEESE_SMELL;
+		ground[5][4] = types.CRUMBS;
+		ground[6][4] = types.CHEESE_SMELL;
+		ground[5][5] = types.CHEESE_SMELL;
+
 		ground[7][7] = types.BLOCK;
 		ground[7][8] = types.BLOCK;
 
@@ -40,8 +45,7 @@ public class Utils {
 		ground[0][4] = types.MOUSETRAP;
 		ground[1][4] = types.MOUSETRAP_SMELL;
 		ground[0][5] = types.MOUSETRAP_SMELL;
-		
-		
+
 		ground[3][9] = types.MOUSETRAP_SMELL;
 		ground[4][8] = types.MOUSETRAP_SMELL;
 		ground[4][9] = types.MOUSETRAP;

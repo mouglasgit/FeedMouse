@@ -1,29 +1,29 @@
 package com.rules;
 
-public class Cheese extends Food {
+public class Crumbs extends Food {
 	private int X, Y;
-	private String smell = "cheese";
+	private String smell = "crumbs";
 
-	public Cheese(int x, int y) {
+	public Crumbs(int x, int y) {
 		super();
 		X = x;
 		Y = y;
-	}
-
-	public int getX() {
-		return X;
 	}
 
 	public void setX(int x) {
 		X = x;
 	}
 
-	public int getY() {
-		return Y;
+	public int getX() {
+		return X;
 	}
 
 	public void setY(int y) {
 		Y = y;
+	}
+
+	public int getY() {
+		return Y;
 	}
 
 	public String getSmell() {

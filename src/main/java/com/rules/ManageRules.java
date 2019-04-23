@@ -20,11 +20,12 @@ public class ManageRules {
 
 			// start here
 
-			Mouse mouse = new Mouse("start");
+			Mouse mouse = new Mouse("start", "");
 
 			Cheese cheese = new Cheese(9, 8);
 			Mousetrap mtrapLeft = new Mousetrap(0, 4);
 			Mousetrap mtrapDown = new Mousetrap(4, 9);
+			Crumbs crumbs = new Crumbs(5, 4);
 
 			ArrayList<Mousetrap> listTraps = new ArrayList<>();
 
@@ -32,9 +33,11 @@ public class ManageRules {
 			listTraps.add(mtrapDown);
 
 			Game game = new Game(mouse, cheese, listTraps);
+			game.setVisible(true);
 
 			kSession.insert(mouse);
 			kSession.insert(cheese);
+			kSession.insert(crumbs);
 			kSession.insert(mtrapLeft);
 			kSession.insert(mtrapDown);
 			kSession.insert(game);

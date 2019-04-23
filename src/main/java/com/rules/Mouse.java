@@ -6,11 +6,22 @@ public class Mouse {
 	private Types types;
 	private String status;
 	private int X, Y;
+	private int[][] ground;
 	private LinkedList<int[]> pathMemory;
+	private String perception = "anything";
 
-	public Mouse(String status) {
+	public Mouse(String status, String perception) {
 		this.status = status;
+		this.perception = perception;
 		this.pathMemory = new LinkedList<>();
+	}
+
+	public String getPerception() {
+		return perception;
+	}
+
+	public void setPerception(String perception) {
+		this.perception = perception;
 	}
 
 	public void setRun() {
@@ -74,16 +85,43 @@ public class Mouse {
 		this.pathMemory.removeLast();
 	}
 
-	public boolean isCheese() {
+	public void setGround(int[][] ground) {
+		this.ground = ground;
+	}
+
+	public boolean isNearCheese() {
 		int i, j;
 		i = this.X / types.STEP;
 		j = this.Y / types.STEP;
-		if (i == 9 && j == 8) {
-			// if (i == 1 && j == 0) {
-			return true;
-		} else {
-			return false;
+
+		try {
+			if (this.ground[i - 1][j] == types.CHEESE) {
+				return true;
+			}
+		} catch (Exception e) {
 		}
+
+		try {
+			if (this.ground[i + 1][j] == types.CHEESE) {
+				return true;
+			}
+		} catch (Exception e) {
+		}
+		try {
+			if (this.ground[i][j - 1] == types.CHEESE) {
+				return true;
+			}
+		} catch (Exception e) {
+		}
+		try {
+			if (this.ground[i][j + 1] == types.CHEESE) {
+				return true;
+			}
+		} catch (Exception e) {
+		}
+
+		return false;
+
 	}
 
 	public boolean isSmellMousetrap() {
@@ -103,11 +141,15 @@ public class Mouse {
 		i = this.X / types.STEP;
 		j = this.Y / types.STEP;
 		// if (i == 1 && j == 0) {
-		if ((i == 9 && j == 7) || (i == 8 && j == 8) || (i == 9 && j == 9)) {
+		if ((i == 9 && j == 7) || (i == 8 && j == 8) || (i == 9 && j == 9) || (i == 4 && j == 4) || (i == 6 && j == 4)
+				|| (i == 5 && j == 5)) {
+			this.perception = "isSmellCheese";
 			return true;
 		} else {
+			this.perception = "anything";
 			return false;
 		}
+
 	}
 
 	public void goForFood() {

@@ -3,6 +3,7 @@ package com.rules
 import com.rules.Game;
 import com.rules.Mouse;
 import com.rules.Cheese;
+import com.rules.Crumbs;
 import com.rules.Mousetrap;
 
 //verifica se o jogo ainda n começou para iniciar.
@@ -36,12 +37,13 @@ rule "IsSmellMousetrap"
 	salience -2
     when
        	$m:Mouse()
+       	eval($m.isSmellMousetrap()==true)
     then
-     	if($m.isSmellMousetrap()==true){
-     		$m.setDanger();
-       		update( $m );
-        	System.out.println("Smell Mousetrap!");
-       	}
+     	
+ 		$m.setDanger();
+   		update( $m );
+    	System.out.println("Smell Mousetrap!");
+   	
 end
 
 //se for encontrada uma situação de perigo volta para o último movimento seguro na mémoria.
@@ -56,17 +58,29 @@ rule "returnLastStep"
        	
 end
 
-//caso seja encontrado cheiro de queijo nas proximidades, o rato fica alerta para pegar a comida. 
+
+//caso seja encontrado cheiro de queijo nas proximidades, o rato fica alerta para pegar a comida caso realmente tenha comida. 
 rule "IsSmellCheese"
 	salience -2
     when
        	$m:Mouse()
+       	eval($m.isSmellCheese()==true)
     then
-     	if($m.isSmellCheese()==true){
-     		$m.setFood();
-       		update( $m );
-        	System.out.println("Smell Cheese!");
-       	}
+    	System.out.println("Smell Cheese!");
+       	
+end
+
+//caso seja encontrado cheiro de queijo nas proximidades, e o rato percebeu que realmente o quejo está lá, então pega o mesmo. 
+rule "IsSmellCheeseAndCheese"
+	salience -2
+    when
+       	$m:Mouse()
+       	eval($m.getPerception()=="isSmellCheese" && $m.isNearCheese()==true)
+    then	
+ 		$m.setFood();
+   		update( $m );
+    	System.out.println("it's near cheese!");
+   	
 end
 
 //se realmente encontrar a comida o rato vai em direção a mesma para se alimentar.
